@@ -1,0 +1,64 @@
+{% extends 'store/main.html' %}
+{% load static %}
+{% block links %}
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'index' %}">Browse music</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'pricing' %}">Pricing</a>
+    </li>
+    <li class="nav-item active">
+        <a class="nav-link" href="{% url 'contact' %}">Contact</a>
+    </li>
+{% endblock links %}
+{% block content %}
+    <main>
+        <section class="jumbotron text-center contact">
+            <div class="container">
+                <h1 class="jumbotron-heading">Contact Us</h1>
+            </div>
+            <img src="{% static 'images/person-listening.png' %}" alt="happy person">
+        </section>
+        <div class="container mb-5">
+            <form action="/action_page.php" class="was-validated">
+                <div class="row">
+                    <div class="col">
+                        <div class="mb-1 mt-3">
+                            <label for="name" class="form-label">Fullname:</label>
+                            <input type="text" class="form-control" id="name" placeholder="Enter Fullname" name="name" required>
+                            <div class="valid-feedback">Valid.</div>
+                            <div class="invalid-feedback">Please fill out this field.</div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="mb-1 mt-3">
+                            <label for="email" class="form-label">Email:</label>
+                            <input type="email" class="form-control" id="email" placeholder="Enter Email" name="email" required>
+                            <div class="valid-feedback">Valid.</div>
+                            <div class="invalid-feedback">Please fill out this field.</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="mb-1 mt-3">
+                            <label for="subject" class="form-label">Subject:</label>
+                            <input type="text" class="form-control" id="subject" placeholder="Enter Subject" name="subject" required>
+                            <div class="valid-feedback">Valid.</div>
+                            <div class="invalid-feedback">Please fill out this field.</div>
+                        </div>
+                    </div>
+                    <div class="col"></div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="mb-1 mt-3">
+                            <textarea name="question" id="question" placeholder="Enter your request here..." cols="100" rows="7" maxlength="500" minlength="1" style="resize: none; width: 100%;" required></textarea>
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </main>
+{% endblock content %}

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+    <link rel="icon" href="{% static 'images/icon.png' %}" type="image/x-icon">
+    <title>GarrattTunes</title>
+
+    <script type="text/javascript">
+        var user = '{{request.user}}'
+
+        function getToken(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+        const csrftoken = getToken('csrftoken');
+
+        function getCookie(name) {
+            var cookieArr = document.cookie.split(";");
+            for(var i = 0; i < cookieArr.length; i++) {
+                var cookiePair = cookieArr[i].split("=");
+                if(name == cookiePair[0].trim()) {
+                    return decodeURIComponent(cookiePair[1]);
+                }
+            }
+
+            return null;
+        }
+
+        var category = JSON.parse(getCookie('category'))
+
+        if (category == undefined) {
+            category = {}
+            document.cookie = 'category=' + JSON.stringify(category) + ";domain=;path=/"
+        }
+
+        console.log('Category:', category)
+
+        var hearted = JSON.parse(getCookie('hearted'))
+
+        if (hearted == undefined) {
+            hearted = {}
+            document.cookie = 'hearted=' + JSON.stringify(hearted) + ";domain=;path=/"
+        }
+
+        console.log('hearted:', hearted)
+
+    </script>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg sticky-top navbar-dark bg-dark">
+        <!-- Brand -->
+        <a class="navbar-brand" href="{% url 'index' %}"><img id = "logo" src="{% static 'images/logo.png' %}" alt="logo"><strong>arrattTunes.</strong></a>
+
+        <!-- phone menu button -->
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        
+        <!-- bar content -->
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <!-- nav links -->
+            <ul class="navbar-nav mr-auto">
+                {% block links %}
+
+                {% endblock links %}
+            </ul>
+            <!-- user login/basket -->
+            <div class="form-inline my-2 my-lg-0">
+                <form class="form-inline">
+                    <button class="btn btn-outline-success" style="margin-right: 5px;" type="button">Login</button>
+                    <button class="btn btn-sm btn-outline-secondary" type="button">Signup</button>
+                </form>
+           </div>
+        </div>
+    </nav>
+    {% block content %}
+
+    {% endblock content %}
+    <footer class="bg-light text-center text-white">
+        <!-- Grid container -->
+        <div class="container p-4 pb-0">
+            <!-- Section: Social media -->
+            <section class="mb-4">
+                <a class="btn text-white btn-floating m-1" href="#" role="button"><i class="fa fa-facebook fa-4x"></i></a>
+                <a class="btn text-white btn-floating m-1" href="#" role="button"><i class="fa fa-instagram fa-4x"></i></a>
+                <a class="btn text-white btn-floating m-1" href="#" role="button"><i class="fa fa-soundcloud fa-4x"></i></a>
+                <a class="btn text-white btn-floating m-1" href="#" role="button"><i class="fa fa-envelope fa-4x"></i></a>
+            </section>
+            <!-- Section: Social media -->
+        </div>
+        <!-- Grid container -->
+
+        <!-- Copyright -->
+        <div class="text-center p-3" style="background: linear-gradient(111deg, rgba(0,0,0,1) 0%, rgba(98,105,80,1) 50%, rgba(119,128,96,1) 100%); border-radius: 50px 50px 0 0;">
+            <a class="text-white" href="{% url 'index' %}">GarrattTunes.com</a>
+             - Copyright © 2020-2022
+        </div>
+        <!-- Copyright -->
+    </footer>
+    
+
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="{% static 'js/index.js' %}"></script>
+</body>
+</html>

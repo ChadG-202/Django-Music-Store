@@ -1,0 +1,79 @@
+{% extends 'store/main.html' %}
+{% load static %}
+{% block links %}
+    <li class="nav-item active">
+        <a class="nav-link" href="{% url 'index' %}">Browse music</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'pricing' %}">Pricing</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'contact' %}">Contact</a>
+    </li>
+{% endblock links %}
+{% block content %}
+    <main>
+        <section class="jumbotron text-center">
+            <div class="container">
+                <h1 class="jumbotron-heading">Browse Music for your Videos</h1>
+                <p class="lead">Download our copyright safe music for use in your videos:<br> Youtube, Twitch, Facebook, Instagram, TikTok,...<br> You just have to give us attribution</p>
+                <p class="music-types">
+                    <button data-style="Cinematic" class="btn btn-primary my-2 update-search">Cinematic</button>
+                    <button data-style="Ambient" class="btn btn-primary my-2 update-search">Ambient</button>
+                    <button data-style="Action" class="btn btn-primary my-2 update-search">Action</button>
+                    <button data-style="Positive" class="btn btn-primary my-2 update-search">Positive</button>
+                    <button data-style="Calming" class="btn btn-primary my-2 update-search">Calming</button>
+                    <button data-style="Corprate" class="btn btn-primary my-2 update-search">Corprate</button>
+                </p>
+                <p class="music-types">
+                    <button data-style="Energizing" class="btn btn-primary my-2 update-search">Energizing</button>
+                    <button data-style="Emotional" class="btn btn-primary my-2 update-search">Emotional</button>
+                    <button data-style="Rock" class="btn btn-primary my-2 update-search">Rock</button>
+                    <button data-style="Hip-Hop" class="btn btn-primary my-2 update-search">Hip-Hop</button>
+                    <button data-style="Spooky" class="btn btn-primary my-2 update-search">Spooky</button>
+                    <button data-style="Electronic" class="btn btn-primary my-2 update-search">Electronic</button>
+                </p>
+            </div>
+            <img src="{% static 'images/happy-person-bg-c.png' %}" alt="happy person">
+        </section>
+        <div class="album py-5 bg-light">
+            <div class="container">
+                <div class="row">
+                    {% for song in songs|slice:":12" %}
+                    <div class="col-md-4" id="cards">
+                        <div class="card mb-4 box-shadow">
+                            <img class="card-img-top" src="static{{song.imageURL}}" loading="lazy" alt="Thumbnail" style="height: 225px; width: 100%; display: block;">
+                            <div class="card-body">
+                                <p class="card-text" style="font-weight:600;">{{song.name}}</p>
+                                <audio class="playback" controls controlsList="nodownload noplaybackrate"><source src="static{{song.songURL}}" loading="lazy" type="audio/mpeg"></audio>
+                                <!-- <button class="play">play</button> -->
+                                <hr>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="btn-group">
+                                        <button id="download" type="button" class="btn btn-sm btn-outline-secondary">Free download</button>
+                                        <button type="button" class="btn btn-sm btn-outline-secondary">Licence</button>
+                                    </div>
+                                    <a data-song="{{song.id}}" class="heart">
+                                        {% if song.id in likeList %}
+                                        <span class="material-symbols-outlined liked">
+                                            favorite
+                                        </span>
+                                        {% else %}
+                                        <span class="material-symbols-outlined">
+                                            favorite
+                                        </span>
+                                        {% endif %}
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="load-more-wrapper" style="text-align: center; padding-bottom: 25px;">
+            <button class="btn btn-primary">Load More</button>
+        </div>
+    </main>
+{% endblock content %}
