@@ -48,3 +48,15 @@ class Music(models.Model):
         except:
             url = ''
         return url
+
+class Contact(models.Model):
+    name = models.CharField(max_length=200)
+    email = models.CharField(max_length=200, null=True)
+    subject = models.CharField(max_length=200)
+    question = models.CharField(max_length=500)
+    request_id = models.CharField(max_length=100, null=True)
+    replied = models.BooleanField(default=False)
+    date_ordered = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.name

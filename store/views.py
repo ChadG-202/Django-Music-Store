@@ -1,6 +1,7 @@
+import datetime
 import json
 from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.template import loader
 from django.urls import reverse
 from .models import * 
@@ -17,7 +18,8 @@ def index(request):
 	except:
 		filteredSearch = ''
 	
-	if filteredSearch != '':
+	
+	if filteredSearch != 'Browse All' and filteredSearch != '':
 		songs = Music.objects.filter(genre__contains = filteredSearch).order_by('-date_added')
 	else:
 		songs = Music.objects.all().order_by('-date_added')
@@ -41,3 +43,22 @@ def pricing(request):
 
 def contact(request):
 	return render(request, 'store/contact.html')
+
+def checkout(request):
+	return render(request, 'store/checkout.html')
+
+def sendRequest(request):
+	request_id = datetime.datetime.now().timestamp()
+	data = json.loads(request.body)
+
+
+	Contact.objects.create(
+		name = data['contact']['name'],
+		email = data['contact']['email'],
+		subject = data['contact']['subject'],
+		question = data['contact']['question'],
+		request_id = request_id,
+		replied = False,
+	)
+
+	return JsonResponse('Question sent..', safe=False)
