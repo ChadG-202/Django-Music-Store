@@ -1,0 +1,16 @@
+{% extends 'store/main.html' %}
+{% load static %}
+{% block links %}
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'index' %}">Browse music</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'pricing' %}">Pricing</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'contact' %}">Contact</a>
+    </li>
+{% endblock links %}
+{% block content %}
+    <h1>Checkout</h1>
+{% endblock content %}

@@ -20,18 +20,18 @@
             <img src="{% static 'images/person-listening.png' %}" alt="happy person">
         </section>
         <div class="container mb-5">
-            <form action="/action_page.php" class="was-validated">
+            <form id="form">
                 <div class="row">
-                    <div class="col">
-                        <div class="mb-1 mt-3">
+                    <div class="col-md-4">
+                        <div class="mb-1 mt-5">
                             <label for="name" class="form-label">Fullname:</label>
                             <input type="text" class="form-control" id="name" placeholder="Enter Fullname" name="name" required>
                             <div class="valid-feedback">Valid.</div>
                             <div class="invalid-feedback">Please fill out this field.</div>
                         </div>
                     </div>
-                    <div class="col">
-                        <div class="mb-1 mt-3">
+                    <div class="col-md-8">
+                        <div class="mb-1 mt-5">
                             <label for="email" class="form-label">Email:</label>
                             <input type="email" class="form-control" id="email" placeholder="Enter Email" name="email" required>
                             <div class="valid-feedback">Valid.</div>
@@ -40,7 +40,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col">
+                    <div class="col-md-6">
                         <div class="mb-1 mt-3">
                             <label for="subject" class="form-label">Subject:</label>
                             <input type="text" class="form-control" id="subject" placeholder="Enter Subject" name="subject" required>
@@ -48,17 +48,62 @@
                             <div class="invalid-feedback">Please fill out this field.</div>
                         </div>
                     </div>
-                    <div class="col"></div>
                 </div>
                 <div class="row">
-                    <div class="col">
+                    <div class="col-md-12">
                         <div class="mb-1 mt-3">
                             <textarea name="question" id="question" placeholder="Enter your request here..." cols="100" rows="7" maxlength="500" minlength="1" style="resize: none; width: 100%;" required></textarea>
                         </div>
                     </div>
                 </div>
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <div class="row justify-content-center">
+                    <input id="form-button" class="btn btn-primary px-5 text-center" type="submit" value="Submit">
+                </div>
             </form>
         </div>
     </main>
+
+    <script type="text/javascript">
+
+        var form = document.getElementById('form')
+
+        form.addEventListener('submit', function(e){
+            e.preventDefault()
+            submitFormData()
+        })
+
+        function submitFormData(){
+            console.log('Form Submitted...')
+
+            var contactInfo = {
+                'name':null,
+                'email':null,
+                'question':null,
+                'subject':null
+            }
+
+            contactInfo.name = form.name.value
+            contactInfo.email = form.email.value
+            contactInfo.question = form.question.value
+            contactInfo.subject = form.subject.value
+
+            var url = '/send_request/'
+            fetch(url,{
+                method: 'POST',
+                headers:{
+                    'Content-Type':'application/json',
+                    'X-CSRFToken':csrftoken,
+                },
+                body:JSON.stringify({'contact':contactInfo})
+            })
+
+            .then((response) => response.json())
+            .then((data) => {
+                console.log('Sucess:', data);
+                alert('Request Sent!');
+
+                window.location.href = "{% url 'index' %}"
+            })
+        }
+    </script>
 {% endblock content %}

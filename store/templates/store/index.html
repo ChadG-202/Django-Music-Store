@@ -10,13 +10,17 @@
     <li class="nav-item">
         <a class="nav-link" href="{% url 'contact' %}">Contact</a>
     </li>
+    <li class="nav-item">
+        <a class="nav-link" data-song="{{song.id}}" id="fav">Favourites</a>
+    </li>
 {% endblock links %}
 {% block content %}
     <main>
+        <!-- Header -->
         <section class="jumbotron text-center">
             <div class="container">
                 <h1 class="jumbotron-heading">Browse Music for your Videos</h1>
-                <p class="lead">Download our copyright safe music for use in your videos:<br> Youtube, Twitch, Facebook, Instagram, TikTok,...<br> You just have to give us attribution</p>
+                <p class="lead">Download our copyright safe music for use in your videos<br>You just have to give us attribution</p>
                 <p class="music-types">
                     <button data-style="Cinematic" class="btn btn-primary my-2 update-search">Cinematic</button>
                     <button data-style="Ambient" class="btn btn-primary my-2 update-search">Ambient</button>
@@ -36,11 +40,13 @@
             </div>
             <img src="{% static 'images/happy-person-bg-c.png' %}" alt="happy person">
         </section>
-        <div class="album py-5 bg-light">
-            <div class="container">
+
+        <!-- Song cards -->
+        <div class="album py-5 bg-light" id="cards">
+            <div class="container index">
                 <div class="row">
                     {% for song in songs|slice:":12" %}
-                    <div class="col-md-4" id="cards">
+                    <div class="col-sm-12 col-md-6 col-lg-4">
                         <div class="card mb-4 box-shadow">
                             <img class="card-img-top" src="static{{song.imageURL}}" loading="lazy" alt="Thumbnail" style="height: 225px; width: 100%; display: block;">
                             <div class="card-body">
@@ -50,8 +56,8 @@
                                 <hr>
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div class="btn-group">
-                                        <button id="download" type="button" class="btn btn-sm btn-outline-secondary">Free download</button>
-                                        <button type="button" class="btn btn-sm btn-outline-secondary">Licence</button>
+                                        <a id="download" class="btn btn-sm btn-outline-secondary" href="static{{song.highResSongURL}}" download="{{song.name}}">Free download</a>
+                                        <button type="button" class="btn btn-sm btn-outline-secondary" data-toggle="modal" data-target="#licence">Licence</button>
                                     </div>
                                     <a data-song="{{song.id}}" class="heart">
                                         {% if song.id in likeList %}
@@ -72,8 +78,49 @@
                 </div>
             </div>
         </div>
+
+        <!-- Load more songs -->
         <div class="load-more-wrapper" style="text-align: center; padding-bottom: 25px;">
             <button class="btn btn-primary">Load More</button>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="licence" tabindex="-1" role="dialog" aria-labelledby="licenceLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="licenceLabel">Free Licence Agreement</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <h5>Safe for YouTube</h5>
+                        <p>Our music is copyright safe, cleared and ready to use in your YouTube videos and social media posts.</p>
+                        <h5>Use Forever</h5>
+                        <p>All our plans provide you with a licence valid forever.</p>
+                        <h5>Attribution Required</h5>
+                        <p>Remeber to add GarrattTunes.com to your content</p>
+                        <hr>
+                        <h5 style="color: rgb(0, 72, 255);">Upgrade</h5>
+                        <p>You must upgrade your licence if you intend to uses are music for any of the following:</p>
+                        <ul id="agreement-list">
+                            <li>&times; Advertisments</li>
+                            <li>&times; Wedding videos</li>
+                            <li>&times; TV, Cinema</li>
+                            <li>&times; Radio</li>
+                            <li>&times; Podcasts</li>
+                        </ul>
+                        <a href="{% url 'pricing' %}"><button type="button" class="btn btn-danger btn-sm">Learn more</button></a>
+                        <hr>
+                        <h5 style="color: red;">&times; You do not have permision to remix songs</h5>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">I understand</button>
+                        <a href="{% url 'pricing' %}"><button type="button" class="btn btn-primary">Upgrade Licence</button></a>
+                    </div>
+                </div>
+            </div>
         </div>
     </main>
 {% endblock content %}
