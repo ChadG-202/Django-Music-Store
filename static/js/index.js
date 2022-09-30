@@ -69,3 +69,5 @@ function cookieHeartState(songId){
     document.cookie = 'hearted=' + JSON.stringify(hearted) + ";domain=;path=/"
     location.reload()
 }
+
+// Licence Pop up
