@@ -55,11 +55,10 @@ for (i = 0; i < heartBtns.length; i++) {
     heartBtns[i].addEventListener('click', function(){
         var songId = this.dataset.song
         cookieHeartState(songId)
-        changeHeartState(songId)
     })
 }
 
-function cookieHeartState(songId){
+function cookieHeartState(songId) {
     if (hearted[songId] == undefined){
         hearted[songId] = songId
     }else{
@@ -70,4 +69,24 @@ function cookieHeartState(songId){
     location.reload()
 }
 
-// Licence Pop up
+// Favourite button
+var favBtns = document.getElementsByClassName('fav')
+
+for (i = 0; i < favBtns.length; i++) {
+    favBtns[i].addEventListener('click', function(){
+        console.log("hello")
+        if (hearted == undefined){
+            console.log("you have no fav")
+        }else{
+            if (category == undefined){
+                category = {'style':'favourite'}
+            }else{
+                category['style'] = 'favourite'
+            }
+            document.cookie = 'category=' + JSON.stringify(category) + ";domain=;path=/"
+            location.reload()
+            const element = document.getElementById("cards");
+            element.scrollIntoView();
+        }
+    })
+}

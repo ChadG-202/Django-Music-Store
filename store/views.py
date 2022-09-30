@@ -17,14 +17,7 @@ def index(request):
 		filteredSearch = category['style']
 	except:
 		filteredSearch = ''
-	
-	
-	if filteredSearch != 'Browse All' and filteredSearch != '':
-		songs = Music.objects.filter(genre__contains = filteredSearch).order_by('-date_added')
-	else:
-		songs = Music.objects.all().order_by('-date_added')
 
-	# need to add db table of hearts to store customers hearted items, pull and add them to likeList save cookie list to db tbale after change
 	try:
 		hearted = json.loads(request.COOKIES['hearted'])
 	except:
@@ -34,6 +27,14 @@ def index(request):
 	likeList = []
 	for heart in hearted:
 		likeList.append(int(heart)) 
+	
+	if filteredSearch != 'Browse All' and filteredSearch != '':
+		if filteredSearch == 'favourite':
+			songs = Music.objects.filter(id__in = likeList).order_by('-date_added')
+		else:
+			songs = Music.objects.filter(genre__contains = filteredSearch).order_by('-date_added')
+	else:
+		songs = Music.objects.all().order_by('-date_added')
 
 	context = {'songs':songs, 'likeList':likeList}
 	return render(request, 'store/index.html', context)
