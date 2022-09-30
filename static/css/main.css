@@ -16,6 +16,15 @@ body {
   text-transform: uppercase;
 }
 
+#fav {
+  color: #b66363;
+  cursor: pointer;
+}
+
+#fav:hover {
+  color: #b78787;
+}
+
 .jumbotron {
   margin: 25px;
   padding-bottom: 0;
@@ -80,6 +89,11 @@ audio::-webkit-media-controls-play-button:hover {
 #download:hover {
   background-color: #007bff;
   color: white;
+}
+
+#agreement-list {
+  list-style-type: none;
+  padding: 0;
 }
 
 .container.price {

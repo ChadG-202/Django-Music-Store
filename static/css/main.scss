@@ -25,6 +25,15 @@ body{
     text-transform: uppercase;
 }
 
+#fav{
+    color: rgb(182, 99, 99);
+    cursor: pointer;
+
+    &:hover{
+        color: rgb(183, 135, 135);
+    }
+}
+
 
 // Index-------------------------------------------
 .jumbotron{
@@ -94,6 +103,11 @@ audio::-webkit-media-controls-play-button:hover {
         background-color:#007bff;
         color: white;
     }
+}
+
+#agreement-list{
+    list-style-type: none;
+    padding: 0;
 }
 
 // Pricing----------------------------------------------
@@ -171,4 +185,9 @@ i{
     }
 }
 
-
+// load more from database
+// Custom audio player
+// login and sign up buttons
+// Favourites pulls up favourite items
+// save favourite cookie to user account
+// pricing goes to basket which has paypal payment
