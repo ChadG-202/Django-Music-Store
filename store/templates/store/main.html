@@ -62,6 +62,15 @@
 
         console.log('hearted:', hearted)
 
+        var search = JSON.parse(getCookie('search'))
+
+        if (search == undefined) {
+            search = {}
+            document.cookie = 'search=' + JSON.stringify(search) + ";domain=;path=/"
+        }
+
+        console.log('search:', search)
+
     </script>
 </head>
 <body>

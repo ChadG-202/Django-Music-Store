@@ -21,10 +21,13 @@ for (i = 0; i < updateBtns.length; i++) {
 function updateSearch(style){
     if (category == undefined){
         category = {'style':style}
+        search = {'size':6}
     }else{
         category['style'] = style
+        search['size'] = 6
     }
     document.cookie = 'category=' + JSON.stringify(category) + ";domain=;path=/"
+    document.cookie = 'search=' + JSON.stringify(search) + ";domain=;path=/"
     location.reload()
     const element = document.getElementById("cards");
     element.scrollIntoView();

@@ -26,17 +26,30 @@ def index(request):
 
 	likeList = []
 	for heart in hearted:
-		likeList.append(int(heart)) 
+		likeList.append(int(heart))
+
+	try:
+		search = json.loads(request.COOKIES['search'])
+	except:
+		search = {}
+		print('search:', search)
+
+	try:
+		searchSize = search['size']
+		print(searchSize)
+	except:
+		searchSize = 6
+
 	
 	if filteredSearch != 'Browse All' and filteredSearch != '':
 		if filteredSearch == 'favourite':
-			songs = Music.objects.filter(id__in = likeList).order_by('-date_added')
+			songs = Music.objects.filter(id__in = likeList).order_by('-date_added')[:searchSize]
 		else:
-			songs = Music.objects.filter(genre__contains = filteredSearch).order_by('-date_added')
+			songs = Music.objects.filter(genre__contains = filteredSearch).order_by('-date_added')[:searchSize]
 	else:
-		songs = Music.objects.all().order_by('-date_added')
+		songs = Music.objects.all().order_by('-date_added')[:searchSize]
 
-	context = {'songs':songs, 'likeList':likeList}
+	context = {'songs':songs, 'likeList':likeList, 'searchSize': searchSize}
 	return render(request, 'store/index.html', context)
 
 def pricing(request):
